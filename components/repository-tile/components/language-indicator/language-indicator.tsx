@@ -1,5 +1,5 @@
+import { getLanguageColor } from "@/utils/language-colors";
 import React from "react";
-import { getLanguageColor } from "../../../utils/language-colors";
 
 export const LanguageIndicator = ({
   language,

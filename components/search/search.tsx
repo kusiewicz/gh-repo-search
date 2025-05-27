@@ -2,10 +2,20 @@
 
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { Search, X } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
-export const SearchBar = () => {
-  const [inputValue, setInputValue] = useState("");
+interface SearchBarProps {
+  onSearchChange: (query: string) => void;
+}
+
+export const SearchBar = ({ onSearchChange }: SearchBarProps) => {
+  const searchParams = useSearchParams();
+  const [inputValue, setInputValue] = useState(searchParams.get("q") || "");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    onSearchChange(inputValue);
+  }, [inputValue, onSearchChange]);
 
   const handleClear = () => {
     setInputValue("");

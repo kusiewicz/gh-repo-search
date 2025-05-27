@@ -13,7 +13,7 @@ interface LicenseProps {
   url: string;
 }
 
-interface RepositoryProps {
+export interface RepositoryProps {
   id: number;
   name: string;
   full_name: string;
@@ -38,6 +38,7 @@ interface RepositoryProps {
   default_branch: string;
 }
 
-export interface RepositoryTileProps {
-  repoDetails: RepositoryProps;
+export interface SearchResponse {
+  items: RepositoryProps[];
+  total_count: number;
 }
