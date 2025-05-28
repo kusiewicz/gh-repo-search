@@ -47,7 +47,6 @@ describe("formatTimeAgo", () => {
     const date = new Date(2022, 10, 10, 12, 0, 0);
     expect(formatTimeAgo(date.toISOString())).toBe("2 months ago");
 
-    // 1 month ago (singular)
     const dateOneMonth = new Date(2022, 11, 10, 12, 0, 0);
     expect(formatTimeAgo(dateOneMonth.toISOString())).toBe("1 month ago");
   });
