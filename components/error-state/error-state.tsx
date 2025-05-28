@@ -9,7 +9,9 @@ export const ErrorState = ({
     <h3 className="text-red-400 font-semibold mb-2">
       Error Loading Repositories
     </h3>
-    <p className="text-white/80 mb-4">{error?.message}</p>
+    {error?.message ? (
+      <p className="text-white/80 mb-4">{error?.message}</p>
+    ) : null}
     <button
       onClick={onRetry}
       className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md transition-colors"

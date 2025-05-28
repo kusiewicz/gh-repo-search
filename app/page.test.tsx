@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, afterEach } from "vitest";
+import { describe, test, expect, vi, afterEach, beforeEach } from "vitest";
 import {
   render,
   screen,
@@ -31,9 +31,13 @@ vi.stubGlobal(
 describe("App", () => {
   setupMswServerForTests();
 
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
   afterEach(() => {
     cleanup();
-    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   const renderPage = () =>
@@ -51,6 +55,7 @@ describe("App", () => {
     });
 
     fireEvent.change(searchInput, { target: { value: "repo-1" } });
+    vi.advanceTimersByTimeAsync(1000);
 
     await waitFor(() => {
       expect(
@@ -61,6 +66,7 @@ describe("App", () => {
 
   test("loads and displays repositories matching search query", async () => {
     renderPage();
+    vi.advanceTimersByTimeAsync(1000);
 
     const searchInput = screen.getByRole("search", {
       name: /search github repositories/i,
@@ -78,6 +84,7 @@ describe("App", () => {
 
   test("handles empty results", async () => {
     renderPage();
+    vi.advanceTimersByTimeAsync(1000);
 
     const searchInput = screen.getByRole("search", {
       name: /search github repositories/i,
@@ -106,6 +113,7 @@ describe("App", () => {
         <App />
       </TestQueryClientProvider>
     );
+    vi.advanceTimersByTimeAsync(1000);
 
     const searchInput = screen.getByRole("search", {
       name: /search github repositories/i,
@@ -128,6 +136,7 @@ describe("App", () => {
 
   test("loads next page when scrolling", async () => {
     renderPage();
+    vi.advanceTimersByTimeAsync(1000);
 
     const searchInput = screen.getByRole("search", {
       name: /search github repositories/i,
@@ -153,6 +162,7 @@ describe("App", () => {
 
   test("shows loading state (tile skeleton) when fetching next page", async () => {
     renderPage();
+    vi.advanceTimersByTimeAsync(1000);
 
     const searchInput = screen.getByRole("search", {
       name: /search github repositories/i,
@@ -184,5 +194,49 @@ describe("App", () => {
   test("shows header component", () => {
     renderPage();
     expect(screen.getByRole("banner")).toBeInTheDocument();
+  });
+
+  test("debounces search queries to prevent excessive API calls", async () => {
+    renderPage();
+
+    const searchInput = screen.getByRole("search", {
+      name: /search github repositories/i,
+    });
+
+    fireEvent.change(searchInput, { target: { value: "r" } });
+    fireEvent.change(searchInput, { target: { value: "re" } });
+    fireEvent.change(searchInput, { target: { value: "rep" } });
+    fireEvent.change(searchInput, { target: { value: "repo" } });
+
+    expect(
+      screen.queryByTestId(REPOSITORY_TILE_SKELETON_TEST_ID)
+    ).not.toBeInTheDocument();
+
+    vi.advanceTimersByTimeAsync(1000);
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByTestId(REPOSITORY_TILE_SKELETON_TEST_ID).length
+      ).toBeGreaterThan(0);
+    });
+  });
+
+  test("only performs search after final input value within debounce period", async () => {
+    renderPage();
+
+    const searchInput = screen.getByRole("search", {
+      name: /search github repositories/i,
+    });
+
+    fireEvent.change(searchInput, { target: { value: "repo-1" } });
+    fireEvent.change(searchInput, { target: { value: "repo-2" } });
+
+    expect(screen.queryByText("test-user/repo-15")).not.toBeInTheDocument();
+
+    vi.advanceTimersByTimeAsync(1000);
+
+    await waitFor(() => {
+      expect(screen.getByText("test-user/repo-2")).toBeInTheDocument();
+    });
   });
 });

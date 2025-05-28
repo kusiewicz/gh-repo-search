@@ -6,9 +6,10 @@ import { Search, X } from "lucide-react";
 interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
+  placeholder: string;
 }
 
-export const SearchBar = ({ value, onChange }: SearchBarProps) => {
+export const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClear = () => {
@@ -45,7 +46,7 @@ export const SearchBar = ({ value, onChange }: SearchBarProps) => {
         type="search"
         value={value}
         onChange={handleChange}
-        placeholder="Search GitHub repositories..."
+        placeholder={placeholder}
         className="w-full pl-12 pr-12 py-4 text-lg bg-surface-card/80 border border-white/10 rounded-xl 
                   text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary-500/50 
                   focus:border-primary-500/50 focus:bg-surface-elevated/90 shadow-lg shadow-black/20 

@@ -34,7 +34,11 @@ function App() {
       <Header />
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center relative">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search GitHub repositories..."
+          />
         </div>
         <div className="mt-8 space-y-4">
           {isLoading && (
