@@ -2,14 +2,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@/hooks/use-debounce";
 import { SearchResponse } from "./types";
 import { fetchRepositories } from "./fetch-repositories";
-import { useSyncSearchParam } from "@/hooks/use-sync-search-param";
 
 export const useGetRepositoriesQuery = (
   searchQuery: string,
   itemsPerPage: number = 10
 ) => {
   const debouncedQuery = useDebounce(searchQuery, 500);
-  useSyncSearchParam("q", debouncedQuery);
 
   const {
     data: response,
@@ -17,6 +15,7 @@ export const useGetRepositoriesQuery = (
     isError,
     error,
     fetchNextPage,
+    isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery<SearchResponse>({
     queryKey: ["repositories", debouncedQuery],
@@ -38,6 +37,7 @@ export const useGetRepositoriesQuery = (
     error,
     fetchNextPage,
     hasNextPage,
+    isFetchingNextPage,
     searchQuery: debouncedQuery,
   };
 };

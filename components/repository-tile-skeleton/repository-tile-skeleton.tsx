@@ -1,8 +1,13 @@
 import React from "react";
 
+export const REPOSITORY_TILE_SKELETON_TEST_ID = "repository-tile-skeleton";
+
 export const RepositoryTileSkeleton = () => {
   return (
-    <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 animate-pulse">
+    <div
+      className="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 animate-pulse"
+      data-testid={REPOSITORY_TILE_SKELETON_TEST_ID}
+    >
       <div className="p-6">
         <div className="flex items-center mb-4">
           <div className="w-10 h-10 rounded-full mr-3 bg-gray-700" />

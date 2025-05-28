@@ -3,48 +3,42 @@ import React, { useEffect, useRef } from "react";
 interface InfiniteScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   fetchNextPage: () => void;
   hasNextPage?: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
   intersectionOptions?: IntersectionObserverInit;
   dataTestId?: string;
 }
 
 export const InfiniteScroller = ({
   fetchNextPage,
-  hasNextPage,
-  isLoading,
-  intersectionOptions,
+  hasNextPage = true,
+  isLoading = false,
+  intersectionOptions = { rootMargin: "100px" },
   children,
   dataTestId,
   ...props
 }: InfiniteScrollProps) => {
-  const observerTarget = useRef(null);
+  const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const target = observerRef.current;
+    if (!target || !hasNextPage) return;
+
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && hasNextPage) fetchNextPage();
+      if (entry.isIntersecting && !isLoading) {
+        fetchNextPage();
+      }
     }, intersectionOptions);
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-      observer.disconnect();
-    };
-  }, [hasNextPage]);
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isLoading, intersectionOptions]);
 
   return (
-    <div {...props} style={{ overflowAnchor: "none" }} data-testid={dataTestId}>
+    <div {...props} data-testid={dataTestId}>
       {children}
-      <div
-        className="h-[100px] w-full"
-        ref={observerTarget}
-        style={{ display: isLoading ? "none" : "block" }}
-      />
-      {isLoading ? <h1>loading..</h1> : null}
+      {hasNextPage && (
+        <div ref={observerRef} className="h-4 w-full" aria-hidden="true" />
+      )}
     </div>
   );
 };
