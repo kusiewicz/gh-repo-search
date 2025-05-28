@@ -5,7 +5,7 @@ import { fetchRepositories } from "./fetch-repositories";
 
 export const useGetRepositoriesQuery = (
   searchQuery: string,
-  itemsPerPage: number = 10
+  itemsPerPage: number = 10,
 ) => {
   const debouncedQuery = useDebounce(searchQuery, 500);
 
@@ -20,7 +20,12 @@ export const useGetRepositoriesQuery = (
   } = useInfiniteQuery<SearchResponse>({
     queryKey: ["repositories", debouncedQuery],
     queryFn: ({ pageParam = 1 }) =>
-      fetchRepositories(debouncedQuery, pageParam as number, itemsPerPage),
+      fetchRepositories(
+        debouncedQuery,
+        pageParam as number,
+        itemsPerPage,
+        "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",
+      ),
     initialPageParam: 1,
     getNextPageParam: (previousPage, totalSoFar) => {
       return previousPage.items.length === 0

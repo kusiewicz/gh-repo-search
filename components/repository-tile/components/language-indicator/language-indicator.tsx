@@ -3,17 +3,22 @@ import React from "react";
 
 export const LanguageIndicator = ({
   language,
+  className,
 }: {
   language: string | null;
+  className?: string;
 }) => {
   if (!language) return null;
 
   const languageColor = getLanguageColor(language);
 
   return (
-    <div className="flex items-center">
+    <div
+      className={`flex items-center ${className}`}
+      aria-label={`Repository language: ${language}`}
+    >
       <span
-        className="inline-block w-3 h-3 rounded-full mr-1.5"
+        className="mr-1.5 inline-block h-3 w-3 rounded-full"
         style={{ backgroundColor: languageColor }}
         aria-hidden="true"
       />

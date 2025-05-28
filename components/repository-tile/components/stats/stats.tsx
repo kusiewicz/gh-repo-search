@@ -19,30 +19,36 @@ const formatNumber = (num: number): string => {
 
 export const Stats = ({ stars, forks, issues }: StatsProps) => {
   return (
-    <div className="flex items-center space-x-4 text-sm text-[var(--color-primary-400)]">
-      <div className="flex items-center transition-transform duration-300 hover:scale-110 hover:text-[var(--color-accent-500)] group">
+    <dl
+      className="flex items-center space-x-4 text-sm text-[var(--color-primary-400)]"
+      aria-label="Repository statistics"
+    >
+      <div className="group flex items-center transition-transform duration-300 hover:scale-110 hover:text-[var(--color-accent-500)]">
+        <dt className="sr-only">Stars</dt>
         <Star
           size={16}
           className="mr-1 group-hover:fill-[var(--color-accent-500)] group-hover:text-[var(--color-accent-500)]"
         />
-        <span>{formatNumber(stars)}</span>
+        <dd>{formatNumber(stars)}</dd>
       </div>
 
-      <div className="flex items-center transition-transform duration-300 hover:scale-110 hover:text-[var(--color-primary-500)] group">
+      <div className="group flex items-center transition-transform duration-300 hover:scale-110 hover:text-[var(--color-primary-500)]">
+        <dt className="sr-only">Forks</dt>
         <GitFork
           size={16}
           className="mr-1 group-hover:text-[var(--color-primary-500)]"
         />
-        <span>{formatNumber(forks)}</span>
+        <dd>{formatNumber(forks)}</dd>
       </div>
 
-      <div className="flex items-center transition-transform duration-300 hover:scale-110 hover:text-[var(--color-accent-700)] group">
+      <div className="group flex items-center transition-transform duration-300 hover:scale-110 hover:text-[var(--color-accent-700)]">
+        <dt className="sr-only">Open issues</dt>
         <AlertCircle
           size={16}
           className="mr-1 group-hover:text-[var(--color-accent-700)]"
         />
-        <span>{formatNumber(issues)}</span>
+        <dd>{formatNumber(issues)}</dd>
       </div>
-    </div>
+    </dl>
   );
 };

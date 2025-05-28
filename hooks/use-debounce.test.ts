@@ -21,7 +21,7 @@ describe("useDebounce", () => {
       ({ value, delay }) => useDebounce(value, delay),
       {
         initialProps: { value: "initial value", delay: 500 },
-      }
+      },
     );
 
     rerender({ value: "updated value", delay: 500 });
@@ -46,7 +46,7 @@ describe("useDebounce", () => {
       ({ value, delay }) => useDebounce(value, delay),
       {
         initialProps: { value: "initial value", delay: 500 },
-      }
+      },
     );
 
     rerender({ value: "intermediate value", delay: 500 });
@@ -77,7 +77,7 @@ describe("useDebounce", () => {
       ({ value, delay }) => useDebounce(value, delay),
       {
         initialProps: { value: "initial value", delay: 1000 },
-      }
+      },
     );
 
     rerender({ value: "updated value", delay: 200 });
@@ -103,7 +103,7 @@ describe("useDebounce", () => {
       ({ value, delay }) => useDebounce(value, delay),
       {
         initialProps: { value: initialObject, delay: 500 },
-      }
+      },
     );
 
     expect(result.current).toBe(initialObject);

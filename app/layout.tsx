@@ -17,7 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`p-10 ${inter.className}`}>
+        <div className="from-primary-900/30 via-primary-900/10 absolute inset-0 bg-gradient-to-b to-transparent" />
         <AppQueryClientProvider>{children}</AppQueryClientProvider>
       </body>
     </html>

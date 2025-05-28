@@ -15,7 +15,7 @@ vi.stubGlobal(
   vi.fn((callback: IntersectionObserverCallback) => {
     intersectionCallback = callback;
     return mockIntersectionObserver;
-  })
+  }),
 );
 
 describe("InfiniteScroller", () => {
@@ -33,7 +33,7 @@ describe("InfiniteScroller", () => {
     render(
       <InfiniteScroller fetchNextPage={mockFetchNextPage}>
         <div data-testid="child-content">Test content</div>
-      </InfiniteScroller>
+      </InfiniteScroller>,
     );
 
     expect(screen.getByTestId("child-content")).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe("InfiniteScroller", () => {
 
     intersectionCallback(
       [{ isIntersecting: true } as IntersectionObserverEntry],
-      {} as IntersectionObserver
+      {} as IntersectionObserver,
     );
 
     expect(mockFetchNextPage).toHaveBeenCalledTimes(1);
@@ -63,7 +63,7 @@ describe("InfiniteScroller", () => {
 
     intersectionCallback(
       [{ isIntersecting: false } as IntersectionObserverEntry],
-      {} as IntersectionObserver
+      {} as IntersectionObserver,
     );
 
     expect(mockFetchNextPage).not.toHaveBeenCalled();
@@ -71,7 +71,10 @@ describe("InfiniteScroller", () => {
 
   test("does not create observer if hasNextPage is false", () => {
     render(
-      <InfiniteScroller fetchNextPage={mockFetchNextPage} hasNextPage={false} />
+      <InfiniteScroller
+        fetchNextPage={mockFetchNextPage}
+        hasNextPage={false}
+      />,
     );
 
     expect(mockIntersectionObserver.observe).not.toHaveBeenCalled();
@@ -79,12 +82,12 @@ describe("InfiniteScroller", () => {
 
   test("does not call fetchNextPage if isLoading is true", () => {
     render(
-      <InfiniteScroller fetchNextPage={mockFetchNextPage} isLoading={true} />
+      <InfiniteScroller fetchNextPage={mockFetchNextPage} isLoading={true} />,
     );
 
     intersectionCallback(
       [{ isIntersecting: true } as IntersectionObserverEntry],
-      {} as IntersectionObserver
+      {} as IntersectionObserver,
     );
 
     expect(mockFetchNextPage).not.toHaveBeenCalled();
@@ -95,7 +98,7 @@ describe("InfiniteScroller", () => {
       <InfiniteScroller
         fetchNextPage={mockFetchNextPage}
         dataTestId="custom-scroller"
-      />
+      />,
     );
 
     expect(screen.getByTestId("custom-scroller")).toBeInTheDocument();
@@ -103,7 +106,10 @@ describe("InfiniteScroller", () => {
 
   test("does not render sentinel element when hasNextPage is false", () => {
     render(
-      <InfiniteScroller fetchNextPage={mockFetchNextPage} hasNextPage={false} />
+      <InfiniteScroller
+        fetchNextPage={mockFetchNextPage}
+        hasNextPage={false}
+      />,
     );
 
     const sentinelElements = document.querySelectorAll('[aria-hidden="true"]');
@@ -112,7 +118,7 @@ describe("InfiniteScroller", () => {
 
   test("disconnects observer on unmount", () => {
     const { unmount } = render(
-      <InfiniteScroller fetchNextPage={mockFetchNextPage} />
+      <InfiniteScroller fetchNextPage={mockFetchNextPage} />,
     );
 
     unmount();

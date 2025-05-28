@@ -5,16 +5,16 @@ export const ErrorState = ({
   error: Error | null;
   onRetry: () => void;
 }) => (
-  <div className="col-span-full bg-red-500/10 border border-red-500/20 rounded-lg p-6 text-center">
-    <h3 className="text-red-400 font-semibold mb-2">
+  <div className="col-span-full rounded-lg border border-red-500/20 bg-red-500/10 p-6 text-center">
+    <h3 className="mb-2 font-semibold text-red-400">
       Error Loading Repositories
     </h3>
     {error?.message ? (
-      <p className="text-white/80 mb-4">{error?.message}</p>
+      <p className="mb-4 text-white/80">{error?.message}</p>
     ) : null}
     <button
       onClick={onRetry}
-      className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-md transition-colors"
+      className="rounded-md bg-red-500/20 px-4 py-2 text-red-400 transition-colors hover:bg-red-500/30"
     >
       Try Again
     </button>

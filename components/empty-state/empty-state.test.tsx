@@ -12,7 +12,7 @@ describe("EmptyState", () => {
     render(<EmptyState searchQuery={searchQuery} />);
 
     const message = screen.getByText(
-      `No repositories found for ${searchQuery}`
+      `No repositories found for ${searchQuery}`,
     );
     expect(message).toBeInTheDocument();
   });
@@ -21,7 +21,7 @@ describe("EmptyState", () => {
     render(<EmptyState searchQuery="test" />);
 
     const suggestion = screen.getByText(
-      "Try adjusting your search terms or filters"
+      "Try adjusting your search terms or filters",
     );
     expect(suggestion).toBeInTheDocument();
   });
@@ -29,12 +29,12 @@ describe("EmptyState", () => {
   test("works with different search queries", () => {
     const { rerender } = render(<EmptyState searchQuery="typescript" />);
     expect(
-      screen.getByText("No repositories found for typescript")
+      screen.getByText("No repositories found for typescript"),
     ).toBeInTheDocument();
 
     rerender(<EmptyState searchQuery="javascript" />);
     expect(
-      screen.getByText("No repositories found for javascript")
+      screen.getByText("No repositories found for javascript"),
     ).toBeInTheDocument();
 
     rerender(<EmptyState searchQuery="" />);

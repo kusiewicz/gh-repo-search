@@ -4,7 +4,7 @@ export const fetchRepositories = async (
   query: string,
   page: number = 1,
   itemsPerPage: number = 10,
-  token?: string
+  token?: string,
 ): Promise<SearchResponse> => {
   if (!query) return { items: [], total_count: 0 };
 
@@ -18,9 +18,9 @@ export const fetchRepositories = async (
 
   const response = await fetch(
     `https://api.github.com/search/repositories?q=${encodeURIComponent(
-      query
+      query,
     )}&page=${page}&per_page=${itemsPerPage}`,
-    { headers }
+    { headers },
   );
 
   if (!response.ok) {
@@ -28,7 +28,7 @@ export const fetchRepositories = async (
     throw new Error(
       `Failed to fetch repositories: ${response.status} ${
         response.statusText
-      } ${JSON.stringify(errorData)}`
+      } ${JSON.stringify(errorData)}`,
     );
   }
 

@@ -19,7 +19,7 @@ export const mockRepositories: RepositoryProps[] = Array.from(
     description: `Description ${index + 1}`,
     fork: false,
     created_at: new Date(
-      Date.now() - Math.random() * 10000000000
+      Date.now() - Math.random() * 10000000000,
     ).toISOString(),
     updated_at: new Date(Date.now() - Math.random() * 1000000000).toISOString(),
     pushed_at: new Date(Date.now() - Math.random() * 100000000).toISOString(),
@@ -43,11 +43,11 @@ export const mockRepositories: RepositoryProps[] = Array.from(
           },
     topics: ["web", "javascript", "react", "typescript"].slice(
       0,
-      Math.floor(Math.random() * 4)
+      Math.floor(Math.random() * 4),
     ),
     visibility: "public",
     default_branch: "main",
-  })
+  }),
 );
 
 export const handlers = [
@@ -78,7 +78,7 @@ export const handlers = [
       }
 
       const filteredRepositories = mockRepositories.filter((repo) =>
-        repo.name.toLowerCase().includes(query?.toLowerCase() || "")
+        repo.name.toLowerCase().includes(query?.toLowerCase() || ""),
       );
 
       const startIndex = (page - 1) * perPage;
@@ -89,6 +89,6 @@ export const handlers = [
         items,
         total_count: filteredRepositories.length,
       });
-    }
+    },
   ),
 ];

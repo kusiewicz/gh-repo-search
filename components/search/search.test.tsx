@@ -20,16 +20,16 @@ describe("SearchBar", () => {
     const searchInput = screen.getByRole("search");
     expect(searchInput).toHaveAttribute(
       "placeholder",
-      "Search GitHub repositories..."
+      "Search GitHub repositories...",
     );
 
     cleanup();
     render(
-      <SearchBar {...defaultProps} placeholder="Custom placeholder text" />
+      <SearchBar {...defaultProps} placeholder="Custom placeholder text" />,
     );
     expect(screen.getByRole("search")).toHaveAttribute(
       "placeholder",
-      "Custom placeholder text"
+      "Custom placeholder text",
     );
   });
 
@@ -89,7 +89,7 @@ describe("SearchBar", () => {
     const searchInput = screen.getByRole("search");
     expect(searchInput).toHaveAttribute(
       "aria-label",
-      "Search GitHub repositories"
+      "Search GitHub repositories",
     );
 
     const searchContainer = screen.getByLabelText(/github repository search/i);

@@ -5,48 +5,48 @@ export const REPOSITORY_TILE_SKELETON_TEST_ID = "repository-tile-skeleton";
 export const RepositoryTileSkeleton = () => {
   return (
     <div
-      className="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 animate-pulse"
+      className="animate-pulse overflow-hidden rounded-xl border border-gray-700 bg-gray-800 shadow-lg"
       data-testid={REPOSITORY_TILE_SKELETON_TEST_ID}
     >
       <div className="p-6">
-        <div className="flex items-center mb-4">
-          <div className="w-10 h-10 rounded-full mr-3 bg-gray-700" />
+        <div className="mb-4 flex items-center">
+          <div className="mr-3 h-10 w-10 rounded-full bg-gray-700" />
           <div className="flex-1">
-            <div className="h-5 bg-gray-700 rounded w-3/4 mb-2" />
-            <div className="h-4 bg-gray-700 rounded w-1/3" />
+            <div className="mb-2 h-5 w-3/4 rounded bg-gray-700" />
+            <div className="h-4 w-1/3 rounded bg-gray-700" />
           </div>
         </div>
 
-        <div className="space-y-2 mb-4">
-          <div className="h-4 bg-gray-700 rounded w-full" />
-          <div className="h-4 bg-gray-700 rounded w-4/5" />
+        <div className="mb-4 space-y-2">
+          <div className="h-4 w-full rounded bg-gray-700" />
+          <div className="h-4 w-4/5 rounded bg-gray-700" />
         </div>
 
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className="mt-3 flex flex-wrap gap-2">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-6 w-20 bg-gray-700 rounded-full" />
+            <div key={i} className="h-6 w-20 rounded-full bg-gray-700" />
           ))}
         </div>
 
-        <div className="mt-4 pt-4 border-t border-gray-700 flex flex-wrap justify-between items-center">
+        <div className="mt-4 flex flex-wrap items-center justify-between border-t border-gray-700 pt-4">
           <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-gray-700 mr-2" />
-            <div className="h-4 w-16 bg-gray-700 rounded" />
+            <div className="mr-2 h-3 w-3 rounded-full bg-gray-700" />
+            <div className="h-4 w-16 rounded bg-gray-700" />
           </div>
 
           <div className="flex items-center space-x-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex items-center">
-                <div className="w-4 h-4 rounded bg-gray-700 mr-1" />
-                <div className="h-4 w-12 bg-gray-700 rounded" />
+                <div className="mr-1 h-4 w-4 rounded bg-gray-700" />
+                <div className="h-4 w-12 rounded bg-gray-700" />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-4 flex justify-between items-center">
-          <div className="h-4 w-32 bg-gray-700 rounded" />
-          <div className="h-4 w-24 bg-gray-700 rounded" />
+        <div className="mt-4 flex items-center justify-between">
+          <div className="h-4 w-32 rounded bg-gray-700" />
+          <div className="h-4 w-24 rounded bg-gray-700" />
         </div>
       </div>
     </div>

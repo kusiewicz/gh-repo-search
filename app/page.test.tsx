@@ -25,7 +25,7 @@ vi.stubGlobal(
   vi.fn((callback: IntersectionObserverCallback) => {
     intersectionCallback = callback;
     return mockIntersectionObserver;
-  })
+  }),
 );
 
 describe("App", () => {
@@ -44,7 +44,7 @@ describe("App", () => {
     render(
       <TestQueryClientProvider>
         <App />
-      </TestQueryClientProvider>
+      </TestQueryClientProvider>,
     );
 
   test("shows loading state (skeleton) when fetching repositories", async () => {
@@ -59,7 +59,7 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(
-        screen.getAllByTestId(REPOSITORY_TILE_SKELETON_TEST_ID)[0]
+        screen.getAllByTestId(REPOSITORY_TILE_SKELETON_TEST_ID)[0],
       ).toBeInTheDocument();
     });
   });
@@ -94,7 +94,7 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("No repositories found for no-results")
+        screen.getByText("No repositories found for no-results"),
       ).toBeInTheDocument();
     });
   });
@@ -111,7 +111,7 @@ describe("App", () => {
         }}
       >
         <App />
-      </TestQueryClientProvider>
+      </TestQueryClientProvider>,
     );
     vi.advanceTimersByTimeAsync(1000);
 
@@ -123,13 +123,13 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByTestId(REPOSITORY_TILE_SKELETON_TEST_ID)
+        screen.queryByTestId(REPOSITORY_TILE_SKELETON_TEST_ID),
       ).not.toBeInTheDocument();
     });
 
     await waitFor(() => {
       expect(
-        screen.getByText("Error Loading Repositories")
+        screen.getByText("Error Loading Repositories"),
       ).toBeInTheDocument();
     });
   });
@@ -152,7 +152,7 @@ describe("App", () => {
 
     intersectionCallback(
       [{ isIntersecting: true } as IntersectionObserverEntry],
-      {} as IntersectionObserver
+      {} as IntersectionObserver,
     );
 
     await waitFor(() => {
@@ -175,12 +175,12 @@ describe("App", () => {
 
     intersectionCallback(
       [{ isIntersecting: true } as IntersectionObserverEntry],
-      {} as IntersectionObserver
+      {} as IntersectionObserver,
     );
 
     await waitFor(() => {
       expect(
-        screen.getAllByTestId(REPOSITORY_TILE_SKELETON_TEST_ID)[0]
+        screen.getAllByTestId(REPOSITORY_TILE_SKELETON_TEST_ID)[0],
       ).toBeInTheDocument();
     });
   });
@@ -209,14 +209,14 @@ describe("App", () => {
     fireEvent.change(searchInput, { target: { value: "repo" } });
 
     expect(
-      screen.queryByTestId(REPOSITORY_TILE_SKELETON_TEST_ID)
+      screen.queryByTestId(REPOSITORY_TILE_SKELETON_TEST_ID),
     ).not.toBeInTheDocument();
 
     vi.advanceTimersByTimeAsync(1000);
 
     await waitFor(() => {
       expect(
-        screen.getAllByTestId(REPOSITORY_TILE_SKELETON_TEST_ID).length
+        screen.getAllByTestId(REPOSITORY_TILE_SKELETON_TEST_ID).length,
       ).toBeGreaterThan(0);
     });
   });

@@ -10,7 +10,7 @@ describe("RepositoryTileSkeleton", () => {
     render(<RepositoryTileSkeleton />);
 
     const skeletonElement = screen.getByTestId(
-      REPOSITORY_TILE_SKELETON_TEST_ID
+      REPOSITORY_TILE_SKELETON_TEST_ID,
     );
     expect(skeletonElement).toBeInTheDocument();
   });

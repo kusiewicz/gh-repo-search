@@ -6,7 +6,7 @@ export const GridLayout = ({
   className?: string;
 }) => (
   <div
-    className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full ${className}`}
+    className={`grid w-full grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3 ${className}`}
   >
     {children}
   </div>

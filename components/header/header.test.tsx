@@ -34,7 +34,7 @@ describe("Header", () => {
     render(<Header />);
 
     const description = screen.getByText(
-      /Discover and explore GitHub repositories/i
+      /Discover and explore GitHub repositories/i,
     );
     expect(description).toBeInTheDocument();
   });
