@@ -1,8 +1,6 @@
 import React from "react";
 
 export const TopicTags = ({ topics }: { topics: string[] }) => {
-  if (!topics || topics.length === 0) return null;
-
   return (
     <ul className="mb-4 flex flex-wrap justify-center gap-2 sm:justify-start">
       {topics.slice(0, 5).map((topic) => (

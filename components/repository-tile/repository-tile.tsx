@@ -1,5 +1,8 @@
 import React from "react";
-import { formatDate, formatTimeAgo } from "../../utils/date-formatter";
+import {
+  formatDate,
+  formatTimeAgo,
+} from "../../utils/date-formatter/date-formatter";
 import Image from "next/image";
 import { TopicTags } from "./components/topic-tags/topic-tags";
 import { Stats } from "./components/stats/stats";
@@ -16,12 +19,12 @@ export const RepositoryTile = ({ repositoryDetails }: RepositoryTileProps) => {
       href={repositoryDetails.html_url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group hover:shadow-glow-primary z-10 block rounded-xl border border-[var(--color-surface-elevated)] bg-[var(--color-surface-card)]/80 p-4 shadow-md transition-all duration-300 hover:translate-y-[-4px] hover:border-[var(--color-primary-400)] sm:p-4"
+      className="group hover:shadow-glow-accent z-10 block rounded-xl border border-[var(--color-surface-elevated)] bg-[var(--color-surface-card)]/30 p-4 shadow-md transition-all duration-300 hover:translate-y-[-4px] hover:border-[var(--color-primary-400)] sm:p-4"
       aria-label={`Repository ${repositoryDetails.full_name} by ${repositoryDetails.owner.login} - opens in new tab`}
       title={`Open ${repositoryDetails.full_name} repository`}
     >
       <article
-        className="flex h-full flex-col p-3 sm:p-4"
+        className="flex h-full flex-col p-3 sm:p-4 "
         id={`repo-${repositoryDetails.id}`}
       >
         <div className="mb-4 flex flex-shrink-0 flex-col items-center sm:flex-row sm:items-start">
@@ -42,15 +45,19 @@ export const RepositoryTile = ({ repositoryDetails }: RepositoryTileProps) => {
           </div>
         </div>
 
-        <p className="mb-4 flex-grow text-center text-[var(--color-primary-300)] sm:text-left">
+        <p className="mb-4 line-clamp-10 flex-grow text-center text-[var(--color-primary-300)] sm:text-left">
           {repositoryDetails.description || "No description provided"}
         </p>
 
-        <TopicTags topics={repositoryDetails.topics} />
+        {repositoryDetails.topics.length ? (
+          <TopicTags topics={repositoryDetails.topics} />
+        ) : null}
 
         <footer className="mt-4 flex flex-col gap-4 border-t border-[var(--color-surface-elevated)] pt-4 sm:gap-2">
           <div className="flex flex-col items-center justify-between gap-y-2 sm:flex-row sm:gap-x-4">
-            <LanguageIndicator language={repositoryDetails.language} />
+            {repositoryDetails.language ? (
+              <LanguageIndicator language={repositoryDetails.language} />
+            ) : null}
             <Stats
               stars={repositoryDetails.stargazers_count}
               forks={repositoryDetails.forks_count}

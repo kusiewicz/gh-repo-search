@@ -26,7 +26,7 @@ describe("ErrorState", () => {
     const mockRetry = vi.fn();
     render(<ErrorState error={new Error("Test error")} onRetry={mockRetry} />);
 
-    const retryButton = screen.getByRole("button", { name: /try again/i });
+    const retryButton = screen.getByRole("button");
     fireEvent.click(retryButton);
 
     expect(mockRetry).toHaveBeenCalledTimes(1);

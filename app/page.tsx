@@ -4,7 +4,7 @@ import { Header } from "@/components/header/header";
 import { SearchBar } from "@/components/search/search";
 import { InfiniteScroller } from "../components/infinite-scroller/infinite-scroller";
 import { useGetRepositoriesQuery } from "@/api/queries/get-repositories-query/use-get-repositories-query";
-import { RepositoryTileSkeleton } from "@/components/repository-tile-skeleton/repository-tile-skeleton";
+import { SkeletonGrid } from "@/components/repository-tile-skeleton/repository-tile-skeleton";
 import { GridLayout } from "@/components/grid-layout/grid-layout";
 import { EmptyState } from "@/components/empty-state/empty-state";
 import { ErrorState } from "@/components/error-state/error-state";
@@ -40,13 +40,7 @@ function App() {
           />
         </div>
         <div className="mt-8 space-y-4">
-          {isLoading && (
-            <GridLayout>
-              {[...Array(9)].map((_, i) => (
-                <RepositoryTileSkeleton key={i} />
-              ))}
-            </GridLayout>
-          )}
+          {isLoading ? <SkeletonGrid count={9} /> : null}
 
           {shouldShowEmptyState ? (
             <EmptyState searchQuery={debouncedQuery} />
@@ -62,13 +56,7 @@ function App() {
               {items.map((repo) => (
                 <RepositoryTile repositoryDetails={repo} key={repo.id} />
               ))}
-              {isFetchingNextPage && (
-                <>
-                  {[...Array(6)].map((_, i) => (
-                    <RepositoryTileSkeleton key={i} />
-                  ))}
-                </>
-              )}
+              {isFetchingNextPage ? <SkeletonGrid count={6} /> : null}
               {isError ? (
                 <ErrorState error={error} onRetry={fetchNextPage} />
               ) : null}

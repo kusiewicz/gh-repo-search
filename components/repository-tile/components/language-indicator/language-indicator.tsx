@@ -1,15 +1,13 @@
-import { getLanguageColor } from "@/utils/language-colors";
+import { getLanguageColor } from "@/utils/language-colors/language-colors";
 import React from "react";
 
 export const LanguageIndicator = ({
   language,
   className,
 }: {
-  language: string | null;
+  language: string;
   className?: string;
 }) => {
-  if (!language) return null;
-
   const languageColor = getLanguageColor(language);
 
   return (

@@ -1,5 +1,3 @@
-import React from "react";
-
 export const REPOSITORY_TILE_SKELETON_TEST_ID = "repository-tile-skeleton";
 
 export const RepositoryTileSkeleton = () => {
@@ -52,3 +50,11 @@ export const RepositoryTileSkeleton = () => {
     </div>
   );
 };
+
+export const SkeletonGrid = ({ count }: { count: number }) => (
+  <>
+    {Array.from({ length: count }, (_, i) => (
+      <RepositoryTileSkeleton key={i} />
+    ))}
+  </>
+);

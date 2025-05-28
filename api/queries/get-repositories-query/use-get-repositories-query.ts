@@ -20,12 +20,7 @@ export const useGetRepositoriesQuery = (
   } = useInfiniteQuery<SearchResponse>({
     queryKey: ["repositories", debouncedQuery],
     queryFn: ({ pageParam = 1 }) =>
-      fetchRepositories(
-        debouncedQuery,
-        pageParam as number,
-        itemsPerPage,
-        "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",
-      ),
+      fetchRepositories(debouncedQuery, pageParam as number, itemsPerPage),
     initialPageParam: 1,
     getNextPageParam: (previousPage, totalSoFar) => {
       return previousPage.items.length === 0
@@ -43,6 +38,6 @@ export const useGetRepositoriesQuery = (
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    searchQuery: debouncedQuery,
+    searchQuery,
   };
 };

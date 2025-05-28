@@ -31,7 +31,7 @@ export const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
 
   return (
     <div
-      className="animate-slide-up group relative w-full max-w-[550px]"
+      className="group relative w-full max-w-[550px]"
       aria-label="GitHub repository search"
     >
       <span className="pointer-events-none absolute left-0 flex h-full items-center pl-4">
