@@ -21,12 +21,12 @@ function App() {
     error,
     fetchNextPage,
     hasNextPage,
-    searchQuery: debouncedQuery,
+    debouncedQuery,
     isFetchingNextPage,
   } = useGetRepositoriesQuery(searchQuery);
 
   const shouldShowEmptyState =
-    items.length === 0 && debouncedQuery && !isLoading;
+    items.length === 0 && debouncedQuery && !isLoading && !isError;
 
   return (
     <div className="flex flex-col text-white">

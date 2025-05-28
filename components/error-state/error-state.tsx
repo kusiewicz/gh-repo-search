@@ -6,7 +6,7 @@ export const ErrorState = ({
   onRetry: () => void;
 }) => (
   <div
-    className="col-span-full rounded-lg border border-red-500/20 bg-red-500/10 p-6 text-center"
+    className="col-span-full rounded-lg border border-red-500/20 bg-red-500/10 p-6 text-center z-10"
     role="alert"
     aria-live="assertive"
   >
@@ -14,7 +14,7 @@ export const ErrorState = ({
       Error Loading Repositories
     </h2>
     {error?.message ? (
-      <p className="mb-4 text-white/80">{error.message}</p>
+      <p className="mb-4 break-words text-white/80">{error.message}</p>
     ) : null}
     <button
       onClick={onRetry}
