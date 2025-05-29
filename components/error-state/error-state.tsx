@@ -6,7 +6,7 @@ export const ErrorState = ({
   onRetry: () => void;
 }) => (
   <div
-    className="col-span-full rounded-lg border border-red-500/20 bg-red-500/10 p-6 text-center z-10"
+    className="z-10 col-span-full rounded-lg border border-red-500/20 bg-red-500/10 p-6 text-center"
     role="alert"
     aria-live="assertive"
   >
@@ -18,7 +18,7 @@ export const ErrorState = ({
     ) : null}
     <button
       onClick={onRetry}
-      className="rounded-md bg-red-500/20 px-4 py-2 text-red-400 transition-colors hover:bg-red-500/30"
+      className="cursor-pointer rounded-md bg-red-500/20 px-4 py-2 text-red-400 transition-colors hover:bg-red-500/30"
       aria-label="Try loading repositories again"
     >
       Try Again

@@ -3,18 +3,15 @@
 import { Header } from "@/components/header/header";
 import { SearchBar } from "@/components/search/search";
 import { InfiniteScroller } from "../components/infinite-scroller/infinite-scroller";
-import { useGetRepositoriesQuery } from "@/api/queries/get-repositories-query/use-get-repositories-query";
-import { SkeletonGrid } from "@/components/repository-tile-skeleton/repository-tile-skeleton";
-import { GridLayout } from "@/components/grid-layout/grid-layout";
 import { EmptyState } from "@/components/empty-state/empty-state";
-import { ErrorState } from "@/components/error-state/error-state";
-import { useState } from "react";
-import { RepositoryTile } from "@/components/repository-tile/repository-tile";
+import { RepositoryList } from "@/components/repository-list/repository-list";
+import { useRepositorySearch } from "@/hooks/use-repository-search";
+import { SkeletonGrid } from "@/components/repository-tile-skeleton/repository-tile-skeleton";
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
   const {
+    searchQuery,
+    setSearchQuery,
     items,
     isLoading,
     isError,
@@ -23,10 +20,8 @@ function App() {
     hasNextPage,
     debouncedQuery,
     isFetchingNextPage,
-  } = useGetRepositoriesQuery(searchQuery);
-
-  const shouldShowEmptyState =
-    items.length === 0 && debouncedQuery && !isLoading && !isError;
+    shouldShowEmptyState,
+  } = useRepositorySearch();
 
   return (
     <div className="flex flex-col text-white">
@@ -41,7 +36,6 @@ function App() {
         </div>
         <div className="mt-8 space-y-4">
           {isLoading ? <SkeletonGrid count={9} /> : null}
-
           {shouldShowEmptyState ? (
             <EmptyState searchQuery={debouncedQuery} />
           ) : null}
@@ -52,15 +46,13 @@ function App() {
             hasNextPage={hasNextPage}
             className="w-full"
           >
-            <GridLayout>
-              {items.map((repo) => (
-                <RepositoryTile repositoryDetails={repo} key={repo.id} />
-              ))}
-              {isFetchingNextPage ? <SkeletonGrid count={6} /> : null}
-              {isError ? (
-                <ErrorState error={error} onRetry={fetchNextPage} />
-              ) : null}
-            </GridLayout>
+            <RepositoryList
+              items={items}
+              isFetchingNextPage={isFetchingNextPage}
+              isError={isError}
+              error={error}
+              fetchNextPage={fetchNextPage}
+            />
           </InfiniteScroller>
         </div>
       </main>
