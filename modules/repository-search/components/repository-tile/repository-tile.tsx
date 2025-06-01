@@ -1,13 +1,12 @@
-import React from "react";
-import {
-  formatDate,
-  formatTimeAgo,
-} from "../../utils/date-formatter/date-formatter";
 import Image from "next/image";
 import { TopicTags } from "./components/topic-tags/topic-tags";
 import { Stats } from "./components/stats/stats";
-import { RepositoryProps } from "@/api/queries/get-repositories-query/types";
+import { RepositoryProps } from "@/modules/repository-search/api/types";
 import { LanguageIndicator } from "./components/language-indicator/language-indicator";
+import {
+  formatDate,
+  formatTimeAgo,
+} from "@/utils/date-formatter/date-formatter";
 
 interface RepositoryTileProps {
   repositoryDetails: RepositoryProps;
@@ -24,7 +23,7 @@ export const RepositoryTile = ({ repositoryDetails }: RepositoryTileProps) => {
       title={`Open ${repositoryDetails.full_name} repository`}
     >
       <article
-        className="flex h-full flex-col p-3 sm:p-4 "
+        className="flex h-full flex-col p-3 sm:p-4"
         id={`repo-${repositoryDetails.id}`}
       >
         <div className="mb-4 flex flex-shrink-0 flex-col items-center sm:flex-row sm:items-start">

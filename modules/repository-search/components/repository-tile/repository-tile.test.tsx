@@ -1,7 +1,10 @@
 import { describe, test, expect, vi, afterEach } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { RepositoryTile } from "./repository-tile";
-import { formatDate, formatTimeAgo } from "../../utils/date-formatter/date-formatter";
+import {
+  formatDate,
+  formatTimeAgo,
+} from "@/utils/date-formatter/date-formatter";
 
 vi.mock("next/image", () => ({
   default: ({ src, alt }: { src: string; alt: string }) => (

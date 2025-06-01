@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import type { RepositoryProps } from "../../api/queries/get-repositories-query/types";
+import type { RepositoryProps } from "../../modules/repository-search/api/types";
 
 export const mockRepositories: RepositoryProps[] = Array.from(
   { length: 30 },

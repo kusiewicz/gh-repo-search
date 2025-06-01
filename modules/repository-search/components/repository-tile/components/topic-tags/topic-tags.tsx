@@ -1,5 +1,3 @@
-import React from "react";
-
 export const TopicTags = ({ topics }: { topics: string[] }) => {
   return (
     <ul className="mb-4 flex flex-wrap justify-center gap-2 sm:justify-start">

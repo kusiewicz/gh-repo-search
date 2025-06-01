@@ -1,4 +1,3 @@
-import React from "react";
 import { Star, GitFork, AlertCircle } from "lucide-react";
 
 interface StatsProps {

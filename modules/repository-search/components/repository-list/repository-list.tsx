@@ -1,8 +1,8 @@
-import { GridLayout } from "@/components/grid-layout/grid-layout";
-import { RepositoryTile } from "@/components/repository-tile/repository-tile";
-import { SkeletonGrid } from "@/components/repository-tile-skeleton/repository-tile-skeleton";
-import { ErrorState } from "@/components/error-state/error-state";
-import { RepositoryProps } from "@/api/queries/get-repositories-query/types";
+import { RepositoryProps } from "@/modules/repository-search/api/types";
+import { GridLayout } from "../grid-layout/grid-layout";
+import { RepositoryTile } from "../repository-tile/repository-tile";
+import { SkeletonGrid } from "../repository-tile-skeleton/repository-tile-skeleton";
+import { ErrorState } from "../error-state/error-state";
 
 interface RepositoryListProps {
   items: RepositoryProps[];
@@ -26,4 +26,4 @@ export const RepositoryList = ({
     {isFetchingNextPage ? <SkeletonGrid count={6} /> : null}
     {isError ? <ErrorState error={error} onRetry={fetchNextPage} /> : null}
   </GridLayout>
-); 
+);

@@ -1,12 +1,13 @@
 "use client";
 
-import { Header } from "@/components/header/header";
-import { SearchBar } from "@/components/search/search";
-import { InfiniteScroller } from "../components/infinite-scroller/infinite-scroller";
-import { EmptyState } from "@/components/empty-state/empty-state";
-import { RepositoryList } from "@/components/repository-list/repository-list";
-import { useRepositorySearch } from "@/hooks/use-repository-search";
-import { SkeletonGrid } from "@/components/repository-tile-skeleton/repository-tile-skeleton";
+import { EmptyState } from "@/modules/repository-search/components/empty-state/empty-state";
+import { Header } from "@/modules/repository-search/components/header/header";
+import { InfiniteScroller } from "@/components/infinite-scroller/infinite-scroller";
+import { RepositoryList } from "@/modules/repository-search/components/repository-list/repository-list";
+import { SkeletonGrid } from "@/modules/repository-search/components/repository-tile-skeleton/repository-tile-skeleton";
+import { SearchBar } from "@/modules/repository-search/components/search/search";
+import { useRepositorySearch } from "@/modules/repository-search/hooks/use-repository-search";
+import { GridLayout } from "@/modules/repository-search/components/grid-layout/grid-layout";
 
 function App() {
   const {
@@ -14,12 +15,13 @@ function App() {
     setSearchQuery,
     items,
     isLoading,
+    isFetching,
+    isFetchingNextPage,
     isError,
     error,
     fetchNextPage,
     hasNextPage,
     debouncedQuery,
-    isFetchingNextPage,
     shouldShowEmptyState,
   } = useRepositorySearch();
 
@@ -32,17 +34,20 @@ function App() {
             value={searchQuery}
             onChange={setSearchQuery}
             placeholder="Search GitHub repositories..."
+            ariaLabel="GitHub repository search"
           />
         </div>
         <div className="mt-8 space-y-4">
-          {isLoading ? <SkeletonGrid count={9} /> : null}
-          {shouldShowEmptyState ? (
-            <EmptyState searchQuery={debouncedQuery} />
-          ) : null}
+          {isLoading && (
+            <GridLayout>
+              <SkeletonGrid count={6} />
+            </GridLayout>
+          )}
+          {shouldShowEmptyState && <EmptyState searchQuery={debouncedQuery} />}
 
           <InfiniteScroller
             fetchNextPage={fetchNextPage}
-            isLoading={isLoading}
+            isLoading={isLoading || isFetching}
             hasNextPage={hasNextPage}
             className="w-full"
           >

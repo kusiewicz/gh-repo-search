@@ -7,9 +7,15 @@ interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
+  ariaLabel?: string;
 }
 
-export const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
+export const SearchBar = ({
+  value,
+  onChange,
+  placeholder,
+  ariaLabel,
+}: SearchBarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClear = () => {
@@ -32,7 +38,7 @@ export const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
   return (
     <div
       className="group relative w-full max-w-[550px]"
-      aria-label="GitHub repository search"
+      aria-label={ariaLabel || "Search.."}
     >
       <span className="pointer-events-none absolute left-0 flex h-full items-center pl-4">
         <Search

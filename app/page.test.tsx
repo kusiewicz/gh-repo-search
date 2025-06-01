@@ -9,7 +9,7 @@ import {
 import App from "./page";
 import { setupMswServerForTests } from "@/src/mocks/server";
 import { TestQueryClientProvider } from "@/providers/test-query-client.provider";
-import { REPOSITORY_TILE_SKELETON_TEST_ID } from "@/components/repository-tile-skeleton/repository-tile-skeleton";
+import { REPOSITORY_TILE_SKELETON_TEST_ID } from "@/modules/repository-search/components/repository-tile-skeleton/repository-tile-skeleton";
 
 let intersectionCallback: IntersectionObserverCallback;
 

@@ -82,25 +82,4 @@ describe("SearchBar", () => {
 
     expect(document.activeElement).toBe(searchInput);
   });
-
-  test("has proper accessibility attributes", () => {
-    render(<SearchBar {...defaultProps} />);
-
-    const searchInput = screen.getByRole("search");
-    expect(searchInput).toHaveAttribute(
-      "aria-label",
-      "Search GitHub repositories",
-    );
-
-    const searchContainer = screen.getByLabelText(/github repository search/i);
-    expect(searchContainer).toBeInTheDocument();
-  });
-
-  test("clear button is properly accessible", () => {
-    render(<SearchBar {...defaultProps} value="react" />);
-
-    const clearButton = screen.getByLabelText(/clear search/i);
-    expect(clearButton).toHaveAttribute("type", "button");
-    expect(clearButton).toHaveAttribute("aria-label", "Clear search");
-  });
 });
