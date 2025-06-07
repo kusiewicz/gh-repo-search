@@ -41,4 +41,5 @@ export interface RepositoryProps {
 export interface SearchResponse {
   items: RepositoryProps[];
   total_count: number;
+  nextPageNumber?: number;
 }

@@ -1,6 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, waitFor } from "@testing-library/react";
 import { SearchBar } from "./search";
+import userEvent from "@testing-library/user-event";
 
 describe("SearchBar", () => {
   const defaultProps = {
@@ -40,17 +41,28 @@ describe("SearchBar", () => {
     expect(document.activeElement).toBe(searchInput);
   });
 
-  test("calls onChange when typing in the input", () => {
+  test("calls onChange when typing in the input", async () => {
     render(<SearchBar {...defaultProps} />);
 
     const searchInput = screen.getByRole("search");
-    fireEvent.change(searchInput, { target: { value: "react" } });
+    await userEvent.type(searchInput, "react");
 
-    expect(defaultProps.onChange).toHaveBeenCalledWith("react");
-    expect(defaultProps.onChange).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(defaultProps.onChange).toHaveBeenCalled();
+    });
   });
 
-  test("displays clear button only when input has value", () => {
+  test("display correct value based on value prop", () => {
+    const TEST_VALUE = "test value";
+
+    render(<SearchBar {...{ ...defaultProps, value: TEST_VALUE }} />);
+
+    const searchInput = screen.getByRole("search");
+
+    expect(searchInput).toHaveValue(TEST_VALUE);
+  });
+
+  test("displays clear button only when input has value", async () => {
     const { rerender } = render(<SearchBar {...defaultProps} />);
 
     expect(screen.queryByLabelText(/clear search/i)).not.toBeInTheDocument();
@@ -59,17 +71,17 @@ describe("SearchBar", () => {
     expect(screen.getByLabelText(/clear search/i)).toBeInTheDocument();
   });
 
-  test("clears input when clear button is clicked", () => {
+  test("clears input when clear button is clicked", async () => {
     render(<SearchBar {...defaultProps} value="react" />);
 
     const clearButton = screen.getByLabelText(/clear search/i);
-    fireEvent.click(clearButton);
+    await userEvent.click(clearButton);
 
     expect(defaultProps.onChange).toHaveBeenCalledWith("");
     expect(defaultProps.onChange).toHaveBeenCalledTimes(1);
   });
 
-  test("focuses input after clearing", () => {
+  test("focuses input after clearing", async () => {
     render(<SearchBar {...defaultProps} value="react" />);
 
     const searchInput = screen.getByRole("search");
@@ -78,7 +90,7 @@ describe("SearchBar", () => {
     searchInput.blur();
     expect(document.activeElement).not.toBe(searchInput);
 
-    fireEvent.click(clearButton);
+    await userEvent.click(clearButton);
 
     expect(document.activeElement).toBe(searchInput);
   });

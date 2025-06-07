@@ -3,14 +3,17 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "../../../hooks/use-debounce";
 import { SearchResponse } from "@/modules/repository-search/api/types";
 import { fetchRepositories } from "@/modules/repository-search/api/fetch-repositories";
+import { FormattedError } from "@/utils/formatted-error/formatted-error";
 
 interface UseRepositorySearchOptions {
   itemsPerPage?: number;
   debounceMs?: number;
 }
 
+const INFINITE_REPOSITORIES_QUERY_KEY = "infinite-repositories";
+
 export const useRepositorySearch = ({
-  itemsPerPage = 10,
+  itemsPerPage = 20,
   debounceMs = 500,
 }: UseRepositorySearchOptions = {}) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -25,8 +28,8 @@ export const useRepositorySearch = ({
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = useInfiniteQuery<SearchResponse>({
-    queryKey: ["repositories", debouncedQuery],
+  } = useInfiniteQuery<SearchResponse, FormattedError>({
+    queryKey: [INFINITE_REPOSITORIES_QUERY_KEY, debouncedQuery],
     queryFn: ({ pageParam = 1 }) =>
       fetchRepositories(
         debouncedQuery,
@@ -35,16 +38,14 @@ export const useRepositorySearch = ({
         process.env.NEXT_PUBLIC_GITHUB_TOKEN,
       ),
     initialPageParam: 1,
-    getNextPageParam: (previousPage, allPages) => {
-      return previousPage.items.length === 0 ? undefined : allPages.length + 1;
-    },
-    enabled: debouncedQuery.length > 0,
+    getNextPageParam: (previousPage) => previousPage.nextPageNumber,
+    enabled: debouncedQuery.trim().length > 0,
   });
 
   const items = response?.pages.flatMap((page) => page.items) || [];
 
   const shouldShowEmptyState =
-    items.length === 0 && debouncedQuery && !isLoading && !isError;
+    items.length === 0 && debouncedQuery.trim() && !isLoading && !isError;
 
   return {
     searchQuery,

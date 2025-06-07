@@ -33,8 +33,8 @@ function App() {
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search GitHub repositories..."
-            ariaLabel="GitHub repository search"
+            placeholder="Search GitHub repositories"
+            ariaLabel="Search GitHub repositories"
           />
         </div>
         <div className="mt-8 space-y-4">

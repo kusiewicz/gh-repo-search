@@ -1,5 +1,4 @@
-export const formatTimeAgo = (dateString: string) => {
-  const date = new Date(dateString);
+export const formatTimeAgo = (date: Date) => {
   const now = new Date();
   const secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
 
@@ -31,11 +30,19 @@ export const formatTimeAgo = (dateString: string) => {
   return `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago`;
 };
 
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
+export const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
-}
+};
+
+export const formatHoursMinutes = (date: Date) => {
+  return date.toLocaleString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+};

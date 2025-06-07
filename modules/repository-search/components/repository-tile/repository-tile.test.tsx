@@ -59,8 +59,8 @@ describe("RepositoryTile", () => {
   test("displays correctly formatted dates", () => {
     render(<RepositoryTile repositoryDetails={mockRepo} />);
 
-    const expectedFormattedCreationDate = formatDate(mockRepo.created_at);
-    const expectedTimeAgo = formatTimeAgo(mockRepo.updated_at);
+    const expectedFormattedCreationDate = formatDate(new Date(mockRepo.created_at));
+    const expectedTimeAgo = formatTimeAgo(new Date(mockRepo.updated_at));
 
     expect(
       screen.getByText(`Created: ${expectedFormattedCreationDate}`),

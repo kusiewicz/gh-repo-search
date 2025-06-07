@@ -1,18 +1,13 @@
 import { describe, test, expect, vi, afterEach, beforeEach } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  cleanup,
-} from "@testing-library/react";
-import App from "./page";
-import { setupMswServerForTests } from "@/src/mocks/server";
+import { render, screen, waitFor, cleanup } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { TestQueryClientProvider } from "@/providers/test-query-client.provider";
 import { REPOSITORY_TILE_SKELETON_TEST_ID } from "@/modules/repository-search/components/repository-tile-skeleton/repository-tile-skeleton";
+import { setupMswServerForTests } from "@/test/msw/server";
+
+import App from "./page";
 
 let intersectionCallback: IntersectionObserverCallback;
-
 const mockIntersectionObserver = {
   observe: vi.fn(),
   unobserve: vi.fn(),
@@ -28,10 +23,13 @@ vi.stubGlobal(
   }),
 );
 
+vi.stubGlobal("jest", { advanceTimersByTime: vi.advanceTimersByTime.bind(vi) });
+
 describe("App", () => {
   setupMswServerForTests();
 
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.useFakeTimers();
   });
 
@@ -47,32 +45,32 @@ describe("App", () => {
       </TestQueryClientProvider>,
     );
 
-  const setupSearch = (query: string) => {
+  const setupSearch = async (query: string) => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const searchInput = screen.getByRole("search", {
       name: /search github repositories/i,
     });
-    fireEvent.change(searchInput, { target: { value: query } });
-    vi.advanceTimersByTimeAsync(1000);
+    await user.clear(searchInput);
+    await user.type(searchInput, query);
   };
 
   describe("Search functionality", () => {
     test("performs search with debouncing", async () => {
       renderPage();
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
       const searchInput = screen.getByRole("search", {
         name: /search github repositories/i,
       });
 
-      fireEvent.change(searchInput, { target: { value: "r" } });
-      fireEvent.change(searchInput, { target: { value: "re" } });
-      fireEvent.change(searchInput, { target: { value: "rep" } });
-      fireEvent.change(searchInput, { target: { value: "repo" } });
+      await user.type(searchInput, "r");
+      await user.type(searchInput, "re");
+      await user.type(searchInput, "rep");
+      await user.type(searchInput, "repo");
 
       expect(
         screen.queryByTestId(REPOSITORY_TILE_SKELETON_TEST_ID),
       ).not.toBeInTheDocument();
-
-      vi.advanceTimersByTimeAsync(1000);
 
       await waitFor(() => {
         expect(
@@ -83,17 +81,17 @@ describe("App", () => {
 
     test("clears search results when input is cleared", async () => {
       renderPage();
-      setupSearch("repo-1");
+      await setupSearch("repo-1");
 
       await waitFor(() => {
         expect(screen.getByText("test-user/repo-1")).toBeInTheDocument();
       });
 
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
       const searchInput = screen.getByRole("search", {
         name: /search github repositories/i,
       });
-      fireEvent.change(searchInput, { target: { value: "" } });
-      vi.advanceTimersByTimeAsync(1000);
+      await user.clear(searchInput);
 
       await waitFor(() => {
         expect(screen.queryByText("test-user/repo-1")).not.toBeInTheDocument();
@@ -102,8 +100,8 @@ describe("App", () => {
 
     test("only performs search after final input value within debounce period", async () => {
       renderPage();
-      setupSearch("repo-1");
-      setupSearch("repo-2");
+      await setupSearch("repo-1");
+      await setupSearch("repo-2");
 
       expect(screen.queryByText("test-user/repo-15")).not.toBeInTheDocument();
 
@@ -148,19 +146,7 @@ describe("App", () => {
 
   describe("Error handling", () => {
     test("handles API error", async () => {
-      render(
-        <TestQueryClientProvider
-          config={{
-            defaultOptions: {
-              queries: {
-                retry: false,
-              },
-            },
-          }}
-        >
-          <App />
-        </TestQueryClientProvider>,
-      );
+      renderPage();
       setupSearch("error-test");
 
       await waitFor(() => {
@@ -197,8 +183,8 @@ describe("App", () => {
         expect(screen.getByText("test-user/repo-1")).toBeInTheDocument();
       });
 
-      expect(screen.getByText("test-user/repo-8")).toBeInTheDocument();
-      expect(screen.queryByText("test-user/repo-11")).not.toBeInTheDocument();
+      expect(screen.getByText("test-user/repo-18")).toBeInTheDocument();
+      expect(screen.queryByText("test-user/repo-22")).not.toBeInTheDocument();
 
       intersectionCallback(
         [{ isIntersecting: true } as IntersectionObserverEntry],
@@ -206,8 +192,35 @@ describe("App", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("test-user/repo-11")).toBeInTheDocument();
+        expect(screen.getByText("test-user/repo-22")).toBeInTheDocument();
       });
+    });
+
+    test("does not load data when no next page exists", async () => {
+      renderPage();
+      setupSearch("repo-29");
+
+      await waitFor(() => {
+        expect(screen.getByText("test-user/repo-29")).toBeInTheDocument();
+      });
+
+      const initialObserverCalls =
+        mockIntersectionObserver.observe.mock.calls.length;
+
+      if (intersectionCallback) {
+        intersectionCallback(
+          [{ isIntersecting: true } as IntersectionObserverEntry],
+          {} as IntersectionObserver,
+        );
+      }
+
+      expect(
+        screen.queryByTestId(REPOSITORY_TILE_SKELETON_TEST_ID),
+      ).not.toBeInTheDocument();
+
+      expect(mockIntersectionObserver.observe.mock.calls.length).toBe(
+        initialObserverCalls,
+      );
     });
   });
 

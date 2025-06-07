@@ -39,7 +39,7 @@ export const RepositoryTile = ({ repositoryDetails }: RepositoryTileProps) => {
               {repositoryDetails.full_name}
             </h2>
             <p className="text-center text-sm text-[var(--color-primary-400)] sm:text-left">
-              Updated {formatTimeAgo(repositoryDetails.updated_at)}
+              Updated {formatTimeAgo(new Date(repositoryDetails.updated_at))}
             </p>
           </div>
         </div>
@@ -66,7 +66,7 @@ export const RepositoryTile = ({ repositoryDetails }: RepositoryTileProps) => {
 
           <div className="flex flex-shrink-0 flex-col items-center justify-between sm:flex-row">
             <span className="text-xs text-[var(--color-primary-400)]">
-              Created: {formatDate(repositoryDetails.created_at)}
+              Created: {formatDate(new Date(repositoryDetails.created_at))}
             </span>
           </div>
         </footer>

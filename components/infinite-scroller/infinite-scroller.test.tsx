@@ -1,4 +1,12 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
+import {
+  describe,
+  test,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  afterAll,
+} from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { InfiniteScroller } from "./infinite-scroller";
 
@@ -10,16 +18,16 @@ const mockIntersectionObserver = {
   takeRecords: vi.fn(),
 };
 
-vi.stubGlobal(
-  "IntersectionObserver",
-  vi.fn((callback: IntersectionObserverCallback) => {
-    intersectionCallback = callback;
-    return mockIntersectionObserver;
-  }),
-);
-
 describe("InfiniteScroller", () => {
   const mockFetchNextPage = vi.fn();
+
+  vi.stubGlobal(
+    "IntersectionObserver",
+    vi.fn((callback: IntersectionObserverCallback) => {
+      intersectionCallback = callback;
+      return mockIntersectionObserver;
+    }),
+  );
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -27,6 +35,10 @@ describe("InfiniteScroller", () => {
 
   afterEach(() => {
     cleanup();
+  });
+
+  afterAll(() => {
+    vi.resetAllMocks();
   });
 
   test("renders children correctly", () => {
